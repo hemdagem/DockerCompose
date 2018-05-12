@@ -1,14 +1,14 @@
 FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
-EXPOSE 5000
+EXPOSE 5001
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
 COPY DockerCompose.sln ./
-COPY DockerCompose/DockerCompose.csproj DockerCompose/
+COPY DockerComposeApi/DockerComposeApi.csproj DockerComposeApi/
 RUN dotnet restore -nowarn:msb3202,nu1503
 COPY . .
-WORKDIR /src/DockerCompose
+WORKDIR /src/DockerComposeApi
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish
@@ -17,4 +17,4 @@ RUN dotnet publish -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "DockerCompose.dll"]
+ENTRYPOINT ["dotnet", "DockerComposeApi.dll"]

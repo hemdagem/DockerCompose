@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DockerCompose.Models;
@@ -10,8 +8,10 @@ namespace DockerCompose.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            HttpClient client = new HttpClient();
+            ViewBag.Data = await client.GetAsync("http://localhost:5001/api/values");
             return View();
         }
 
