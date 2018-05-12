@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  dockercompose:
+    image: dockercompose
+    build:
+      context: .
+      dockerfile: DockerCompose/Dockerfile
